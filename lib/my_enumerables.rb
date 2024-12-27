@@ -1,5 +1,12 @@
 module Enumerable
   # Your code goes here
+  def my_map
+    new_array = []
+    for item in self
+      new_array.push(yield(item))
+    end
+    new_array
+  end
 end
 
 # You will first have to define my_each
@@ -14,4 +21,3 @@ class Array
   end
 end
 
-[1, 2, 3].my_each { |item| puts item }
