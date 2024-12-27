@@ -1,10 +1,13 @@
 module Enumerable
-  # Your code goes here
   def my_map
     new_array = []
-    for item in self
-      new_array.push(yield(item))
-    end
+    self.my_each { |item| new_array << yield(item) }
+    new_array
+  end
+
+  def my_select
+    new_array = []
+    self.my_each { |item| new_array << item if yield(item) == true }
     new_array
   end
 end
@@ -20,4 +23,3 @@ class Array
     end
   end
 end
-
