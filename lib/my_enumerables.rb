@@ -1,14 +1,38 @@
 module Enumerable
   def my_map
     new_array = []
-    self.my_each { |item| new_array << yield(item) }
+    self.my_each do |item| 
+      new_array << yield(item)
+    end
     new_array
   end
 
   def my_select
     new_array = []
-    self.my_each { |item| new_array << item if yield(item) == true }
+    self.my_each do |item|
+      new_array << item if yield(item)
+      end
     new_array
+  end
+
+  def my_each_with_index
+    index = 0
+    self.my_each do |item|
+      yield(item, index) if yield(item, index) == true
+      index += 1
+    end
+    self
+  end
+
+  def my_all?
+    matches = []
+    result = false
+
+    self.my_each do |item|
+      matches << item if yield(item)
+    end
+    result = self.size == matches.size
+    result
   end
 end
 
@@ -21,5 +45,6 @@ class Array
     for item in self
       yield(item)
     end
+    self
   end
 end
