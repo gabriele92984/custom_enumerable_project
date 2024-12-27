@@ -34,6 +34,17 @@ module Enumerable
     result = self.size == matches.size
     result
   end
+
+  def my_none?
+    result = true
+    
+    self.my_each do |item|
+      result = false if yield(item)
+      break
+    end
+
+    result
+  end
 end
 
 # You will first have to define my_each
