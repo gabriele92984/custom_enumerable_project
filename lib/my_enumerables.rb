@@ -23,7 +23,7 @@ module Enumerable
       yield(item, index) if yield(item, index) == true
       index += 1
     end
-    
+
     self
   end
 
@@ -63,6 +63,20 @@ module Enumerable
 
       self.size  # Return the size of the enumerable if no block is given
     end
+  end
+
+  def my_inject(initial_value = nil)
+    memo = initial_value
+
+    my_each do |item|
+      if memo.nil?
+        memo = item 
+      else
+        memo = yield(memo, item)
+      end
+    end
+
+    memo
   end
 end
 
