@@ -23,7 +23,7 @@ module Enumerable
       yield(item, index) if yield(item, index) == true
       index += 1
     end
-
+    
     self
   end
 
@@ -38,10 +38,31 @@ module Enumerable
   def my_none?
     self.my_each do |item|
       return false if yield(item)
-      break
     end
 
     true
+  end
+
+  def my_any?
+    self.my_each do |item|
+      return true if yield(item)
+    end
+
+    false
+  end
+
+  def my_count
+    if block_given?
+      count = 0
+      self.my_each do |item|
+        count += 1 if yield(item)  # Increment count if the block condition is met
+      end
+
+      count  # Return the total count of items satisfying the condition
+    else
+
+      self.size  # Return the size of the enumerable if no block is given
+    end
   end
 end
 
@@ -54,7 +75,7 @@ class Array
     for item in self
       yield(item)
     end
-    
+
     self
   end
 end
