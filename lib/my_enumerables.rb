@@ -4,6 +4,7 @@ module Enumerable
     self.my_each do |item| 
       new_array << yield(item)
     end
+
     new_array
   end
 
@@ -12,6 +13,7 @@ module Enumerable
     self.my_each do |item|
       new_array << item if yield(item)
       end
+
     new_array
   end
 
@@ -21,29 +23,25 @@ module Enumerable
       yield(item, index) if yield(item, index) == true
       index += 1
     end
+
     self
   end
 
   def my_all?
-    matches = []
-    result = false
-
     self.my_each do |item|
-      matches << item if yield(item)
+      return false unless yield(item)
     end
-    result = self.size == matches.size
-    result
+
+    true
   end
 
   def my_none?
-    result = true
-    
     self.my_each do |item|
-      result = false if yield(item)
+      return false if yield(item)
       break
     end
 
-    result
+    true
   end
 end
 
@@ -56,6 +54,7 @@ class Array
     for item in self
       yield(item)
     end
+    
     self
   end
 end
