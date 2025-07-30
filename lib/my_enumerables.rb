@@ -68,26 +68,35 @@ module Enumerable # rubocop:disable Style/Documentation
   end
 
   def my_map
-    new_array = []
-    my_each do |item|
-      new_array << yield(item)
+    return to_enum(:my_map) unless block_given?
+
+    mapped = []
+    my_each do |element|
+      mapped << yield(element)
     end
 
-    new_array
+    mapped
   end
 
-  def my_inject(initial_value = nil)
-    memo = initial_value
-
-    each do |item|
-      memo = if memo.nil?
-               item
-             else
-               yield(memo, item)
-             end
+  def my_inject(initial = nil, sym = nil, &block)
+    # Handle symbol/block combinations
+    if sym && block
+      raise ArgumentError, 'You cannot provide both a symbol and a block'
+    elsif sym
+      block = sym.to_proc
     end
 
-    memo
+    accumulator = initial.nil? ? nil : initial
+
+    my_each do |element|
+      accumulator = if accumulator.nil?
+                      element
+                    else
+                      block.call(accumulator, element)
+                    end
+    end
+
+    accumulator
   end
 end
 
