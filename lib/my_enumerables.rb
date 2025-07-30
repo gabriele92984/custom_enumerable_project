@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Enumerable # rubocop:disable Style/Documentation
   def my_map
     new_array = []
