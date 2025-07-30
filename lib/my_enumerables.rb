@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 module Enumerable # rubocop:disable Style/Documentation
+  def my_each_with_index
+    return to_enum(:my_each_with_index) unless block_given?
+
+    index = 0
+    my_each do |element|
+      yield(element, index)
+      index += 1
+    end
+
+    self
+  end
+
   def my_map
     new_array = []
     my_each do |item|
@@ -16,15 +28,6 @@ module Enumerable # rubocop:disable Style/Documentation
       new_array << item if yield(item)
     end
     new_array
-  end
-
-  def my_each_with_index
-    index = 0
-    my_each do |item|
-      yield(item, index) if yield(item, index) == true
-      index += 1
-    end
-    self
   end
 
   def my_all?
