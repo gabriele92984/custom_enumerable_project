@@ -13,20 +13,22 @@ module Enumerable # rubocop:disable Style/Documentation
     self
   end
 
+  def my_select
+    return to_enum(:my_select) unless block_given?
+
+    selected = []
+    my_each do |element|
+      selected << element if yield(element)
+    end
+    selected
+  end
+
   def my_map
     new_array = []
     my_each do |item|
       new_array << yield(item)
     end
 
-    new_array
-  end
-
-  def my_select
-    new_array = []
-    my_each do |item|
-      new_array << item if yield(item)
-    end
     new_array
   end
 
