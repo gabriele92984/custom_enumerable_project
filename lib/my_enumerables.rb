@@ -43,6 +43,16 @@ module Enumerable # rubocop:disable Style/Documentation
     false
   end
 
+  def my_none?
+    if block_given?
+      my_each { |element| return false if yield(element) }
+    else
+      # When no block is given, checks if all elements are falsy (false or nil)
+      my_each { |element| return false if element }
+    end
+    true
+  end
+
   def my_map
     new_array = []
     my_each do |item|
@@ -50,13 +60,6 @@ module Enumerable # rubocop:disable Style/Documentation
     end
 
     new_array
-  end
-
-  def my_none?
-    my_each do |item|
-      return false if yield(item)
-    end
-    true
   end
 
   def my_count
