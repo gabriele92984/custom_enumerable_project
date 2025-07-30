@@ -78,8 +78,14 @@ end
 # your enumerable module will have access
 # to this method
 class Array
-  def my_each(&)
-    each(&block)
+  def my_each
+    return to_enum(:my_each) unless block_given?
+
+    i = 0
+    while i < size
+      yield(self[i])
+      i += 1
+    end
 
     self
   end
