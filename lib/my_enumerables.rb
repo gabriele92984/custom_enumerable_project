@@ -53,6 +53,20 @@ module Enumerable # rubocop:disable Style/Documentation
     true
   end
 
+  def my_count(item = nil, &block)
+    return size unless block || item
+
+    count = 0
+    my_each do |element|
+      if block
+        count += 1 if block.call(element)
+      elsif item
+        count += 1 if element == item
+      end
+    end
+    count
+  end
+
   def my_map
     new_array = []
     my_each do |item|
@@ -60,18 +74,6 @@ module Enumerable # rubocop:disable Style/Documentation
     end
 
     new_array
-  end
-
-  def my_count
-    if block_given?
-      count = 0
-      my_each do |item|
-        count += 1 if yield(item) # Increment count if the block condition is met
-      end
-      count # Return the total count of items satisfying the condition
-    else
-      size # Return the size of the enumerable if no block is given
-    end
   end
 
   def my_inject(initial_value = nil)
